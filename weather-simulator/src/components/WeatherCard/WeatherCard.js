@@ -5,10 +5,15 @@ export default class WeatherCard extends Component {
   render() {
     return (
       <View style={styles.weatherCard}>
+        <Text style={styles.weatherText}>{this.props.weatherDetails.name}</Text>
         <Text style={styles.weatherText}>
-          {this.props.weatherDetails
-            ? this.props.weatherDetails.name
-            : 'Name Not Found'}
+          Current Weather: {this.props.weatherDetails.weather[0].description}
+        </Text>
+        <Text style={styles.weatherText}>
+          Temperature: {this.props.weatherDetails.main.temp}°
+        </Text>
+        <Text style={styles.weatherText}>
+          Wind Speed: {this.props.weatherDetails.wind.speed}mph
         </Text>
       </View>
     );
@@ -20,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: 0.8,
+    opacity: 0.7,
     borderRadius: 0.1,
     backgroundColor: '#fff',
     borderColor: '#000',
@@ -29,7 +34,7 @@ const styles = StyleSheet.create({
     layoutOrigin: [-0.5, 0],
     transform: [
       {
-        translate: [-3, 0, -7]
+        translate: [0, 0, -7]
       }
     ]
   },
