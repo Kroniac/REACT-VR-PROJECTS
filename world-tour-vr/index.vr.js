@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { AppRegistry, asset, Pano, Text, View, StyleSheet } from 'react-vr';
+import MenuItems from './src/components/MenuItems/MenuItems';
 
 export default class world_tour_vr extends Component {
   state = {
     showMenu: false,
-    places: ['A', 'B', 'C', 'D' , 'HOME'],
+    places: ['A', 'B', 'C', 'D', 'HOME'],
     place: 'HOME.jpg'
   };
 
@@ -25,22 +26,19 @@ export default class world_tour_vr extends Component {
     let menuItems = this.state.showMenu
       ? this.state.places.map((place, index) => {
           return (
-            <View
+            <MenuItems
               key={index}
-              onEnter={() => this.changePlaceHandler(place)}
-              style={[
-                styles.menuItem,
-                {
-                  transform: [
-                    {
-                      translate: [0, index % (this.state.places.length / 2), 0]
-                    }
-                  ]
-                }
-              ]}
-            >
-              <Text style={styles.menuItemText}>{place}</Text>
-            </View>
+              onChange={() => this.changePlaceHandler(place)}
+              style={{
+                transform: [
+                  {
+                    translate: [0, index % (this.state.places.length / 2), 0]
+                  }
+                ]
+              }}
+              place={place}
+              MenuItems
+            />
           );
         })
       : null;
@@ -85,20 +83,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'red',
     textAlign: 'center'
-  },
-  menuItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 1.2,
-    width: 1.2,
-    borderRadius: 0.5,
-    borderWidth: 0.02,
-    backgroundColor: '#fff'
-  },
-  menuItemText: {
-    fontSize: 0.2,
-    textAlign: 'center',
-    color: 'blue'
   }
 });
 
