@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, asset, Pano, Text, View } from 'react-vr';
 import * as keys from './src/config/Keys/keys';
 import Weather from './src/components/WeatherCard/WeatherCard';
+import WeatherClouds from './src/components/WeatherClouds/WeatherClouds';
 export default class weather_simulator extends Component {
   state = {
     weatherDetails: null
@@ -21,9 +22,12 @@ export default class weather_simulator extends Component {
       });
   }
   render() {
-    let weather = this.state.weatherDetails ? (
-      <Weather weatherDetails={this.state.weatherDetails} />
-    ) : null;
+    let weather = this.state.weatherDetails
+      ? [
+          <Weather key="1" weatherDetails={this.state.weatherDetails} />,
+          <WeatherClouds key="2" wind={this.state.weatherDetails.wind} />
+        ]
+      : null;
     return (
       <View>
         <Pano source={asset('streets.jpg')} />
