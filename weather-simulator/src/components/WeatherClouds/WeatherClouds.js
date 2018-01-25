@@ -6,14 +6,22 @@ class WeatherClouds extends Component {
     movingX: new Animated.Value(100)
   };
 
+  constructor() {
+    super();
+    setInterval(() => this.animateCloudHandler(), 5000);
+  }
   componentDidMount() {
     this.animateCloudHandler();
   }
   animateCloudHandler = () => {
-    Animated.timing(this.state.movingX, {
-      toValue: -100,
-      duration: 3000
-    }).start();
+    this.state.movingX._value < 0
+      ? this.setState({
+          movingX: new Animated.Value(100)
+        })
+      : Animated.timing(this.state.movingX, {
+          toValue: -150,
+          duration: 5000
+        }).start();
   };
   render() {
     return (
