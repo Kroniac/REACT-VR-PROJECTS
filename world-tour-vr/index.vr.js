@@ -4,7 +4,8 @@ import { AppRegistry, asset, Pano, Text, View, StyleSheet } from 'react-vr';
 export default class world_tour_vr extends Component {
   state = {
     showMenu: false,
-    places: ['A', 'B', 'C', 'D']
+    places: ['A', 'B', 'C', 'D' , 'HOME'],
+    place: 'HOME.jpg'
   };
 
   toggleMenuHandler = () => {
@@ -15,39 +16,39 @@ export default class world_tour_vr extends Component {
     });
   };
 
+  changePlaceHandler = place => {
+    this.setState({
+      place: place + '.jpg'
+    });
+  };
   render() {
     let menuItems = this.state.showMenu
-      ? this.state.places.map((place, index) => (
-          <View
-            key={index}
-            style={[
-              styles.menuItem,
-              {
-                transform: [
-                  {
-                    translate: [
-                      0,
-                      index % ((this.state.places.length) / 2),
-                      0
-                    ]
-                  }
-                ]
-              }
-            ]}
-          >
-            <Text style={styles.menuItemText}>{place}</Text>
-          </View>
-        ))
+      ? this.state.places.map((place, index) => {
+          return (
+            <View
+              key={index}
+              onEnter={() => this.changePlaceHandler(place)}
+              style={[
+                styles.menuItem,
+                {
+                  transform: [
+                    {
+                      translate: [0, index % (this.state.places.length / 2), 0]
+                    }
+                  ]
+                }
+              ]}
+            >
+              <Text style={styles.menuItemText}>{place}</Text>
+            </View>
+          );
+        })
       : null;
     return (
       <View>
-        <Pano source={asset('bac.jpg')} />
-        <View style={styles.menuButton}>
-          <Text
-            onEnter={this.toggleMenuHandler}
-            
-            style={[styles.buttonText, { fontSize: 0.1 }]}
-          >
+        <Pano source={asset(this.state.place)} />
+        <View onEnter={this.toggleMenuHandler} style={styles.menuButton}>
+          <Text style={[styles.buttonText, { fontSize: 0.1 }]}>
             {this.state.showMenu ? 'Close Menu' : 'Open Menu'}
           </Text>
         </View>
