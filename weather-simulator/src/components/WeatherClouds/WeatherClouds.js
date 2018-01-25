@@ -1,31 +1,49 @@
-import React from 'react';
-import { View, Model, asset } from 'react-vr';
+import React, { Component } from 'react';
+import { View, Model, asset, Animated } from 'react-vr';
 
-const weatherClouds = props => {
-  return (
-    <View
-      style={{
-        transform: [
-          {
-            translate: [0, -25, -150]
-          },
-          {
-            rotateX: -90
-          },
-          {
-            rotateZ: props.wind.deg
-          }
-        ]
-      }}
-    >
-      <Model
-        scale={0.01}
-        source={{
-          obj: asset('clouds.obj')
+class WeatherClouds extends Component {
+  state = {
+    movingX: new Animated.Value(100)
+  };
+
+  componentDidMount() {
+    this.animateCloudHandler();
+  }
+  animateCloudHandler = () => {
+    Animated.timing(this.state.movingX, {
+      toValue: -100,
+      duration: 3000
+    }).start();
+  };
+  render() {
+    return (
+      <Animated.View
+        style={{
+          transform: [
+            {
+              translate: [0, -25, -150]
+            },
+            {
+              rotateX: -90
+            },
+            {
+              rotateZ: this.props.wind.deg
+            },
+            {
+              translateX: this.state.movingX
+            }
+          ]
         }}
-      />
-    </View>
-  );
-};
+      >
+        <Model
+          scale={0.01}
+          source={{
+            obj: asset('clouds.obj')
+          }}
+        />
+      </Animated.View>
+    );
+  }
+}
 
-export default weatherClouds;
+export default WeatherClouds;
